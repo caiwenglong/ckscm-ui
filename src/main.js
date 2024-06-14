@@ -6,6 +6,12 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import locale from 'element-plus/es/locale/lang/zh-cn'
 
+import Avue from '@smallwei/avue';
+import '@smallwei/avue/lib/index.css';
+import zhLocale from '@smallwei/avue/lib/locale/lang/zh'
+import enLocale from '@smallwei/avue/lib/locale/lang/en'
+
+import axios from 'axios'
 import '@/assets/styles/index.scss' // global css
 
 import App from './App'
@@ -80,5 +86,5 @@ app.use(ElementPlus, {
   // 支持 large、default、small
   size: Cookies.get('size') || 'default'
 })
-
+app.use(Avue,{axios, locale:enLocale})
 app.mount('#app')
