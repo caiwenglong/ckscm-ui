@@ -1,5 +1,9 @@
 <template>
-  <div class="app-container home">123</div>
+  <div>1231</div>
 </template>
 
-<script setup></script>
+<script setup>
+console.log(1);
+</script>
+
+<style lang="scss" scoped></style>

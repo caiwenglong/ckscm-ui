@@ -31,6 +31,7 @@ const usePermissionStore = defineStore(
       },
       setSidebarRouters(routes) {
         this.sidebarRouters = routes
+        console.log(this.sidebarRouters);
       },
       generateRoutes(roles) {
         return new Promise(resolve => {
