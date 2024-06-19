@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-2">
     <SearchCondition
       v-model="searchFormValue"
       :formProps="searchCondition"

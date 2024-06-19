@@ -13,6 +13,7 @@ import enLocale from '@smallwei/avue/lib/locale/lang/en'
 
 import axios from 'axios'
 import '@/assets/styles/index.scss' // global css
+import '@/assets/styles/tailwind.css' // 要在这边引入
 
 import App from './App'
 import store from './store'
