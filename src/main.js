@@ -50,6 +50,10 @@ import TreeSelect from '@/components/TreeSelect'
 // 字典标签组件
 import DictTag from '@/components/DictTag'
 
+import i18n from '@/language'
+// form组件
+import ElPlusForm from '@/components/avue/form/ElPlusForm.vue'
+
 const app = createApp(App)
 
 // 全局方法挂载
@@ -71,11 +75,13 @@ app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('Editor', Editor)
+app.component('ElPlusForm', ElPlusForm)
 
 app.use(router)
 app.use(store)
 app.use(plugins)
 app.use(elementIcons)
+app.use(i18n)
 app.component('svg-icon', SvgIcon)
 
 directive(app)
@@ -86,5 +92,5 @@ app.use(ElementPlus, {
   // 支持 large、default、small
   size: Cookies.get('size') || 'default'
 })
-app.use(Avue,{axios, locale:enLocale})
+app.use(Avue,{axios, zhLocale})
 app.mount('#app')

@@ -1,9 +1,24 @@
 <template>
-  <div>1231</div>
+  <avue-form :option="option"></avue-form>
 </template>
-
-<script setup>
-console.log(1);
+<script>
+export default {
+  data() {
+    return {
+      option: {
+        column: [
+          {
+            label: "输入框",
+            prop: "input",
+            type: "input",
+          },
+          {
+            label: "输入框",
+            prop: "input1",
+          },
+        ],
+      },
+    };
+  },
+};
 </script>
-
-<style lang="scss" scoped></style>
