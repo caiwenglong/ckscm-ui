@@ -1,48 +1,46 @@
 <template>
-  <div class="p-2">
-    <SearchCondition
-      v-model="searchFormValue"
-      :formProps="searchCondition"
-      :formOption="formOption"
-      @submit="handleSubmitSearch"
-      @reset="handleResetForm"
-    ></SearchCondition>
-  </div>
+  <ElPlusTable
+    :tableColumns="tableColumns"
+    getUrl="/cc/message/template/pageList"
+  ></ElPlusTable>
 </template>
 
 <script setup>
-import SearchCondition from "@/components/SearchCondition/SearchCondition";
-import { searchConditionFields } from "@/components/SearchCondition/searchConditionFields.js";
-import { pick, values } from "lodash";
-import { messageCenter } from "@/constants/sys/frontendFields";
-// 搜索字段
-const searchCondition = computed(() => {
-  return values(
-    pick(searchConditionFields, [
-      messageCenter["templateCode"],
-      messageCenter["sendChannel"],
-    ])
-  );
+import ElPlusTable from "@/components/avue/table/ElplusTable.vue";
+import { getSenderTypes } from "@/api/messageCenter/messageTemplate.js";
+/////////////////////////// 表格开始 ////////////////////////////////
+const tableColumns = ref([
+  {
+    label: "序号",
+    prop: "id",
+  },
+  {
+    label: "模板编码",
+    prop: "code",
+    search: true,
+  },
+  {
+    label: "模板名称",
+    prop: "name",
+    search: true,
+  },
+  {
+    label: "发送渠道",
+    prop: "senderTypeList",
+    dicData: [],
+  },
+  {
+    label: "创建时间",
+    prop: "createTime",
+  },
+]);
+
+/////////////////////////// 表格结束 ////////////////////////////////
+
+onMounted(async () => {
+  const result = await getSenderTypes();
+  console.log(result);
 });
-
-// 搜索条件项对象
-const searchFormValue = ref({});
-
-// 自定义配置
-const formOption = ref({
-  span: 6,
-});
-
-// 搜索
-function handleSubmitSearch() {
-  console.log(searchFormValue.value);
-}
-
-// 重置
-function handleResetForm() {
-  console.log("重置");
-  console.log(searchFormValue.value);
-}
 </script>
 
 <style lang="scss" scoped></style>
