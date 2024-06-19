@@ -1,10 +1,10 @@
 <template>
   <div>
     <avue-form
-      :option="option"
-      v-model="model"
-      @submit="handleSubmit"
-      @reset-change="handleReset"
+        :option="option"
+        v-model="model"
+        @submit="handleSubmit"
+        @reset-change="handleReset"
     ></avue-form>
   </div>
 </template>
@@ -12,8 +12,8 @@
 <script>
 export const menuPosition = {
   left: 'left',
-      center: 'center',
-      right: 'right'
+  center: 'center',
+  right: 'right'
 }
 </script>
 <script setup>
@@ -31,13 +31,15 @@ const props = defineProps({
   // 字段集合
   formProps: {
     type: Object,
-    default: () => {},
+    default: () => {
+    },
   },
 
   // 表单配置
   formOption: {
     type: Object,
-    default: () => {},
+    default: () => {
+    },
   },
 });
 
