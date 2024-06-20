@@ -6,6 +6,8 @@
 </template>
 
 <script setup>
+import { useGetDicts } from "@/hoosk/useGetDicts";
+import { DICT_LICENSE_STATUS } from "@/constants/sys/dictsName.js";
 const tableOptions = ref({
   searchLabelWidth: 140,
   column: [
@@ -60,6 +62,8 @@ const tableOptions = ref({
     {
       label: "状态",
       prop: "licenseStatus",
+      type: "select",
+      dicData: useGetDicts(DICT_LICENSE_STATUS),
     },
   ],
 });
