@@ -29,6 +29,7 @@ export default {
     nameCn: '中文品名',
     nameLatin: '拉丁学名',
     goodsCountryName: '原产国',
+    goodsCountryId: '原产国',
     licenseNo: '许可证编号',
     portName: '港口',
     factoryNo: '厂号',

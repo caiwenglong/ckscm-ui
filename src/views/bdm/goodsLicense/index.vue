@@ -2,13 +2,38 @@
   <ElPlusTable
     :tableOptions="tableOptions"
     getUrl="/bdm/goods/license/pageList"
-  ></ElPlusTable>
+  >
+    <template v-slot:tableMenuLeft>
+      <el-button
+        v-hasPermi="['bdm:goodsLicense:apply']"
+        icon="el-icon-plus"
+        plain
+        size="small"
+        type="primary"
+        @click="handleOpenApplyLicenseDialog"
+      >
+        申请许可证
+      </el-button>
+      <el-button
+        v-hasPermi="['bdm:goodsLicense:add']"
+        icon="el-icon-plus"
+        plain
+        size="small"
+        type="primary"
+        @click="handleOpenEntryLicenseDialog"
+      >
+        录入许可证
+      </el-button>
+    </template>
+  </ElPlusTable>
 </template>
 
 <script setup>
 import { useGetDicts } from "@/hoosk/useGetDicts";
 import { DICT_LICENSE_STATUS } from "@/constants/sys/dictsName.js";
 import { setPropToLabel } from "@/utils/toolFunctions.js";
+import { useElPlusDialog } from "@/hoosk/useElPlusDialog.js";
+const { showElPlusDialog } = useElPlusDialog();
 const tableOptions = ref({
   searchLabelWidth: 140,
   column: [
@@ -57,6 +82,19 @@ const tableOptions = ref({
     },
   ],
 });
-
 setPropToLabel(tableOptions.value.column);
+
+/**
+ * 显示申请许可证弹出框
+ */
+function handleOpenApplyLicenseDialog() {
+  const applyLicenseDialogFormProps = setPropToLabel([
+    {
+      prop: "goodsCountryId",
+      type: "select",
+      dicData: [],
+    },
+  ]);
+  showElPlusDialog(applyLicenseDialogFormProps);
+}
 </script>

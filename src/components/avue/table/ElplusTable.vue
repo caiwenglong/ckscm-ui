@@ -11,8 +11,8 @@
       @row-del="rowDel"
       @on-load="getDataList"
     >
-      <template #effectiveStartDate-datetimerange="{ item }">
-        <span>{{ item.text }}日</span>
+      <template #menu-left="{}">
+        <slot name="tableMenuLeft"></slot>
       </template>
     </avue-crud>
   </div>
@@ -58,6 +58,7 @@ const form = ref({});
 // 表格头配置项默认配置
 const tableOptions = ref({
   index: true, // 	是否有序号
+  addBtn: false, // 是否显示添加按钮
   searchIndex: 3, // 配置收缩展示的个数,默认为2个
   searchIcon: true, // 开始展开功能
   searchMenuSpan: 8, // 搜索按钮长度
