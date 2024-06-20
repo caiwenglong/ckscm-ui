@@ -54,6 +54,7 @@ import DictTag from '@/components/DictTag'
 import i18n from '@/language'
 // form组件
 import ElPlusForm from '@/components/avue/form/ElPlusForm.vue'
+import ElPlusTable from "@/components/avue/table/ElplusTable.vue";
 
 const app = createApp(App)
 
@@ -77,6 +78,7 @@ app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('Editor', Editor)
 app.component('ElPlusForm', ElPlusForm)
+app.component('ElPlusTable', ElPlusTable)
 
 app.use(router)
 app.use(store)

@@ -1,8 +1,9 @@
 import request from '@/utils/request'
-export const getList = (url) => {
+export const getList = (url, params) => {
     return request({
       url: url,
       method: 'get',
+      params
     })
   }
   export const del = (id) => request.delete(url, {

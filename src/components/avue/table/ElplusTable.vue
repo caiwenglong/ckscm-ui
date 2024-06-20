@@ -2,23 +2,29 @@
   <div>
     <avue-crud
       v-model="form"
-      :option="option"
+      :option="tableOptions"
       :data="data"
-      v-model:page="page"
+      v-model:page="pageOptions"
       @search-change="searchChange"
       @row-save="rowSave"
       @row-update="rowUpdate"
       @row-del="rowDel"
-    ></avue-crud>
+      @on-load="getDataList"
+    >
+      <template #effectiveStartDate-datetimerange="{ item }">
+        <span>{{ item.text }}日</span>
+      </template>
+    </avue-crud>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 import { getList } from "./apiTable.js";
+import { isEmptyObject } from "@/utils/toolFunctions.js";
 const props = defineProps({
-  // 表格列数据信息
-  tableColumns: {
+  // 表格配置项
+  tableOptions: {
     type: Object,
     default: () => {},
   },
@@ -50,37 +56,62 @@ const emit = defineEmits(["searchChange", "rowSave", "rowUpdate", "rowDel"]);
 const form = ref({});
 
 // 表格头配置项默认配置
-const option = ref({
+const tableOptions = ref({
   index: true, // 	是否有序号
-  searchIndex: 1, // 配置收缩展示的个数,默认为2个
+  searchIndex: 3, // 配置收缩展示的个数,默认为2个
   searchIcon: true, // 开始展开功能
   searchMenuSpan: 8, // 搜索按钮长度
-  column: [],
-});
-option.value.column = computed(() => {
-  return props.tableColumns;
+  border: true, // 表格边框
+  align: "center", // 表格对齐方式
+  headerAlign: "center", // 表头对齐方式
+  searchLabelWidth: 100, // 搜索框的label宽度 默认100
+  showOverflowTooltip: true, // 超出隐藏
+  column: [], // 数据列
 });
 
+watch(
+  () => props.tableOptions,
+  (newTableOptions) => {
+    if (!isEmptyObject(newTableOptions)) {
+      tableOptions.value = { ...tableOptions.value, ...newTableOptions };
+    }
+  },
+  { immediate: true }
+);
+
 // 默认分页配置
-const defaultPageOptions = {
+const pageOptions = ref({
   currentPage: 1, // 当前页码
   pageSize: 20, // 每页显示的条数
   total: 0, // 总条数
-};
-const page = computed(() => {
-  return { ...defaultPageOptions, ...props.pageOptions };
+});
+watch(
+  () => props.pageOptions,
+  (newPageOptions) => {
+    if (!isEmptyObject(newPageOptions)) {
+      pageOptions.value = { ...pageOptions.value, ...newPageOptions };
+    }
+  },
+  { immediate: true }
+);
+
+const data = computed(() => {
+  return props.tableDataList.length ? props.tableDataList : dataList.value;
 });
 
+/**
+ * 通过URL获取数据
+ */
 const dataList = ref([]);
-onMounted(async () => {
-  if (!props.tableDataList.length && props.getUrl) {
-    const result = await getList(props.getUrl);
+async function getDataList() {
+  if (props.getUrl) {
+    pageOptions.value.pageNum = pageOptions.value.currentPage;
+    const result = await getList(props.getUrl, pageOptions.value);
     dataList.value = result?.data?.list;
+    pageOptions.value.total = result?.data?.total;
   }
-});
-const data = computed(() => {
-  return props.tableDataList.length ? props.tableDataList : dataList;
-});
+}
+
 /**
  * 搜索事件
  */
