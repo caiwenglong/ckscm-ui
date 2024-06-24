@@ -33,6 +33,8 @@ import { useGetDicts } from "@/hoosk/useGetDicts";
 import { DICT_LICENSE_STATUS } from "@/constants/sys/dictsName.js";
 import { setPropToLabel } from "@/utils/toolFunctions.js";
 import { useElPlusDialog } from "@/hoosk/useElPlusDialog.js";
+import useGlobalStore from "@/store/modules/global";
+
 const { showElPlusDialog } = useElPlusDialog();
 const tableOptions = ref({
   searchLabelWidth: 140,
@@ -87,12 +89,17 @@ setPropToLabel(tableOptions.value.column);
 /**
  * 显示申请许可证弹出框
  */
-function handleOpenApplyLicenseDialog() {
+async function handleOpenApplyLicenseDialog() {
   const applyLicenseDialogFormProps = setPropToLabel([
     {
       prop: "goodsCountryId",
       type: "select",
-      dicData: [],
+      virtualize: true,
+      props: {
+        label: "countryName",
+        value: "id",
+      },
+      dicData: await useGlobalStore().getAllCountry(),
     },
   ]);
   showElPlusDialog(applyLicenseDialogFormProps);

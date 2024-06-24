@@ -2,8 +2,8 @@ import { useI18n } from "@/hoosk/useI18n.js";
 
 /**
  * 判断对象是否是空对象
- * @param {*} obj 
- * @returns 
+ * @param {*} obj
+ * @returns
  */
 export function isEmptyObject(obj) {
   // 使用 for...in 循环遍历对象的所有可枚举属性
@@ -17,6 +17,12 @@ export function isEmptyObject(obj) {
   return true;
 }
 
+/**
+ * 合并两个对象，将source中的属性值赋值给target
+ * @param target
+ * @param source
+ * @returns {*}
+ */
 export function mergeWithDefaults(target, source) {
   for (let key in source) {
     if (source.hasOwnProperty(key)) {
@@ -37,7 +43,7 @@ export function mergeWithDefaults(target, source) {
 
 /**
  * 根据列的prop属性值通过i18n拿到文本
- * @param {*} array 
+ * @param {*} array
  */
 export function setPropToLabel(array) {
   array.forEach(item => {

@@ -1,33 +1,36 @@
-
-import { $DialogForm } from '@smallwei/avue';
-import { getCurrentInstance } from 'vue';
+import { $DialogForm } from "@smallwei/avue";
+import { getCurrentInstance } from "vue";
 import { isEmptyObject, mergeWithDefaults } from "@/utils/toolFunctions.js";
+import {aVueFormDefaultConfig} from "@/components/avue/aVueFormConfig.js";
 export function useElPlusDialog() {
-  
-  const { appContext } = getCurrentInstance()
+  const { appContext } = getCurrentInstance();
 
   // 默认配置
   let dialogOptions = {
     option: {
-      submitText: '完成',
-      column: []
-    }
-  }
+      submitText: "完成",
+      column: [],
+    },
+  };
 
-
-  // 显示弹出框
-  function showElPlusDialog(column = [], customDialogOptions = {}) {
-    console.log(column);
+  /**
+   * 显示弹出框
+   * @param columns form表单项
+   * @param customDialogOptions 自定义弹出框配置
+   */
+  function showElPlusDialog(columns = [], customDialogOptions = {}) {
     // 合并自定义配置
-    if(!isEmptyObject(customDialogOptions)) {
-      dialogOptions = mergeWithDefaults(dialogOptions, customDialogOptions)
-      
+    if (!isEmptyObject(customDialogOptions)) {
+      dialogOptions = mergeWithDefaults(dialogOptions, customDialogOptions);
     }
-    dialogOptions.option.column = column
-    console.log(dialogOptions);
-    $DialogForm(appContext)(dialogOptions)
+
+    // 添加全局默认配置
+    aVueFormDefaultConfig(columns)
+
+    dialogOptions.option.column = columns;
+    $DialogForm(appContext)(dialogOptions);
   }
   return {
-    showElPlusDialog
-  }
+    showElPlusDialog,
+  };
 }

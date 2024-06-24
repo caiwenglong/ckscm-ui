@@ -1,22 +1,24 @@
 <template>
   <div>
     <avue-form
-        :option="option"
-        v-model="model"
-        @submit="handleSubmit"
-        @reset-change="handleReset"
+      :option="option"
+      v-model="model"
+      @submit="handleSubmit"
+      @reset-change="handleReset"
     ></avue-form>
   </div>
 </template>
 
 <script>
 export const menuPosition = {
-  left: 'left',
-  center: 'center',
-  right: 'right'
-}
+  left: "left",
+  center: "center",
+  right: "right",
+};
 </script>
 <script setup>
+import {aVueFormDefaultConfig} from "@/components/avue/aVueFormConfig.js";
+
 const model = defineModel();
 // 表单配置项
 const option = ref({
@@ -31,15 +33,13 @@ const props = defineProps({
   // 字段集合
   formProps: {
     type: Object,
-    default: () => {
-    },
+    default: () => {},
   },
 
-  // 表单配置
-  formOption: {
+  // 表单项属性配置
+  propsOption: {
     type: Object,
-    default: () => {
-    },
+    default: () => {},
   },
 });
 
@@ -48,10 +48,11 @@ const emits = defineEmits(["submit", "reset"]);
 // 设置每个搜索项的属性
 option.value.column = computed(() => {
   const columns = [...props.formProps];
-  // 设置一行显示几个
-  columns.forEach((columns) => {
-    Object.assign(columns, props.formOption);
+  aVueFormDefaultConfig(columns)
+  columns.forEach((item) => {
+    Object.assign(item, props.propsOption);
   });
+
   return [...props.formProps];
 });
 
