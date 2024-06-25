@@ -5,6 +5,7 @@
       :option="tableOptions"
       :data="data"
       v-model:page="pageOptions"
+      v-model:search="searchData"
       @search-change="searchChange"
       @row-save="rowSave"
       @row-update="rowUpdate"
@@ -21,7 +22,7 @@
 <script setup>
 import { computed } from "vue";
 import { getList } from "./apiTable.js";
-import { isEmptyObject } from "@/utils/toolFunctions.js";
+import {isEmptyObject, mergeWithDefaults} from "@/utils/toolFunctions.js";
 const props = defineProps({
   // 表格配置项
   tableOptions: {
@@ -51,6 +52,7 @@ const props = defineProps({
 const emit = defineEmits(["searchChange", "rowSave", "rowUpdate", "rowDel"]);
 
 // 表格搜索项
+const searchData = ref({})
 
 // 编辑保存时单行的数据
 const form = ref({});
@@ -107,6 +109,7 @@ const dataList = ref([]);
 async function getDataList() {
   if (props.getUrl) {
     pageOptions.value.pageNum = pageOptions.value.currentPage;
+    mergeWithDefaults(pageOptions.value, searchData.value)
     const result = await getList(props.getUrl, pageOptions.value);
     dataList.value = result?.data?.list;
     pageOptions.value.total = result?.data?.total;
@@ -117,6 +120,7 @@ async function getDataList() {
  * 搜索事件
  */
 function searchChange(params, done) {
+  getDataList()
   emit("searchChange", params);
   done();
 }

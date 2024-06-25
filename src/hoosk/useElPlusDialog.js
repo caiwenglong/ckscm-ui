@@ -2,6 +2,7 @@ import { $DialogForm } from "@smallwei/avue";
 import { getCurrentInstance } from "vue";
 import { isEmptyObject, mergeWithDefaults } from "@/utils/toolFunctions.js";
 import {aVueFormDefaultConfig} from "@/components/avue/aVueFormConfig.js";
+import {ElMessage} from "element-plus";
 export function useElPlusDialog() {
   const { appContext } = getCurrentInstance();
 
@@ -11,6 +12,14 @@ export function useElPlusDialog() {
       submitText: "完成",
       column: [],
     },
+    beforeClose: (done) => {
+      ElMessage.success('关闭前方法')
+      done()
+    },
+    callback:(res)=>{
+      res.done()
+      res.close()
+    }
   };
 
   /**

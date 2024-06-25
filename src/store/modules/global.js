@@ -20,7 +20,6 @@ const useGlobalStore = defineStore("globalStore", {
           getAllCountryByCondition({ isCommonUse: params })
             .then((res) => {
               const data = res.data;
-              console.log(data);
               this.countryList = data;
               resolve(data);
             })

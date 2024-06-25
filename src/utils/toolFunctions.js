@@ -51,3 +51,22 @@ export function setPropToLabel(array) {
   });
   return array
 }
+
+
+/**
+ * 获取指定字段的值
+ * @param dataList 被查找的数组
+ * @param compareValue 对比的值
+ * @param targetField 要查询的字段
+ * @param compareFieldName 被对比对象的字段名
+ * @returns {null}
+ */
+export function handleGetTargetField(dataList, compareValue, targetField, compareFieldName) {
+  let target = null
+    dataList.find(item => {
+    if(item[compareFieldName] === compareValue) {
+      target = item[targetField]
+    }
+  })
+  return target
+}

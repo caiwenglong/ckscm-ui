@@ -31,9 +31,10 @@
 <script setup>
 import { useGetDicts } from "@/hoosk/useGetDicts";
 import { DICT_LICENSE_STATUS } from "@/constants/sys/dictsName.js";
-import { setPropToLabel } from "@/utils/toolFunctions.js";
+import {handleGetTargetField, setPropToLabel} from "@/utils/toolFunctions.js";
 import { useElPlusDialog } from "@/hoosk/useElPlusDialog.js";
 import useGlobalStore from "@/store/modules/global";
+import {ElMessage} from "element-plus";
 
 const { showElPlusDialog } = useElPlusDialog();
 const tableOptions = ref({
@@ -99,7 +100,20 @@ async function handleOpenApplyLicenseDialog() {
         label: "countryName",
         value: "id",
       },
+      control: (val, form) => {
+        console.log(val, form)
+
+      },
+      change: ({ value, column }) => {
+        console.log(column.dicData)
+        const label = handleGetTargetField(column.dicData, value, 'countryName', 'id')
+        console.log(label)
+      },
       dicData: await useGlobalStore().getAllCountry(),
+    },
+    {
+      prop: "nameLatin",
+      disabled: true,
     },
   ]);
   showElPlusDialog(applyLicenseDialogFormProps);
